@@ -1,21 +1,27 @@
-import Constants.Lines;
+import constants.Fields;
+import constants.Lines;
 
 import java.util.*;
 
 public class CarCollector {
 
     private Map<String, Car> carsList = new HashMap<>();
+    private Searcher searcher = new Searcher(carsList);
 
     public void addCar(){
         Car car = Car.CREATE_CAR();
         carsList.put(car.getVinCode(), car);
     }
 
+    public Map<String, Car> search(final String var, Fields type){
+        return searcher.find(var, type);
+    }
+    public Map<String, Car> search(final Integer from, final Integer to, Fields type){
+        return searcher.find(from, to, type);
+    }
+
     private Car searchByVIN(String vin){
-        if(carsList.containsKey(vin)){
-            return carsList.get(vin);
-        }
-        return null;
+        return carsList.getOrDefault(vin, null);
     }
 
     private Car searchByREG(String reg){
@@ -43,7 +49,7 @@ public class CarCollector {
     }
 
     public CarCollector() {
-        //Манины по умолчанию, для наглядности
+        //Машины по умолчанию, для наглядности
         Car car1 = new Car(Lines.DEFAULT_VIN_1.getLine(), Lines.DEFAULT_REG_NUM_1.getLine(), Lines.DEFAULT_MODEL_1.getLine(),
                 500, 2000, 1000);
         Car car2 = new Car(Lines.DEFAULT_VIN_2.getLine(), Lines.DEFAULT_REG_NUM_2.getLine(), Lines.DEFAULT_MODEL_2.getLine(),
@@ -61,9 +67,14 @@ public class CarCollector {
     @Override
     public String toString() {
         StringBuilder line = new StringBuilder("Все машины:\n");
-        for (Iterator iterator = carsList.values().iterator(); iterator.hasNext();){
-            line.append("* \n" + iterator.next() + "\n");
-        }
+        carsList.forEach((k, v) -> line.append("* \n" + v + "\n"));
         return line.toString();
+    }
+
+    public static void main(String[] args) {
+        CarCollector carCollector = new CarCollector();
+        System.out.println(carCollector.search(Lines.DEFAULT_VIN_2.getLine(), Fields.VIN_CODE).values());
+        System.out.println(carCollector.search(Lines.DEFAULT_REG_NUM_2.getLine(), Fields.REG_NUM).values());
+        System.out.println(carCollector.search(Lines.DEFAULT_REG_NUM_2.getLine(), Fields.REG_NUM).values());
     }
 }

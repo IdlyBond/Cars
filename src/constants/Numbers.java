@@ -1,4 +1,4 @@
-package Constants;
+package constants;
 
 public enum Numbers {
     MIN_YEAR_CAR(1900),
