@@ -1,5 +1,15 @@
+package Constants;
+
 public enum Lines {
     NON_CORRECT("* Некорректный ввод. "),
+    WHAT_TO_CHANGE("* Выберите, что вы хотите изменить: "),
+    CHANGE_OPTIONS("1 - VIN.\n" +
+            "2 - Регистрационный код.\n" +
+            "3 - Модель.\n" +
+            "4 - Пробег.\n" +
+            "5 - Год выпуска.\n" +
+            "6 - Цена.\n" +
+            "7 - Все параметры.\n"),
     CHOOSE_LINE ("* Выберите один из пунктов меню:"),
     MAIN_OPTIONS_LINE ("1 - Меню поиска.\n" +
             "2 - Занести в базу данные по новой машине.\n" +
@@ -13,6 +23,10 @@ public enum Lines {
             " 0 - назад."),
     ENTER_VIN_CODE("* Введите VIN код: "),
     ENTER_REG_NUMBER("* Введите регестрационный код: "),
+    ENTER_MODEL("* Введите марку и модель: "),
+    ENTER_PATH("* Введите пробег: "),
+    ENTER_YEAR("* Введите год выпуска: "),
+    ENTER_PRICE("* Введите цену: "),
     DEFAULT_VIN_1("HCBUZTH63KLC859BZ"),
     DEFAULT_VIN_2("5CBU54ZTH63KLC855"),
     DEFAULT_VIN_3("MZBU4GBC3KLC859BZ"),
@@ -21,6 +35,10 @@ public enum Lines {
     DEFAULT_REG_NUM_2("AC4644BF"),
     DEFAULT_REG_NUM_3("BY5684BF"),
     DEFAULT_REG_NUM_4("CC5674BF"),
+    DEFAULT_MODEL_1("Camry"),
+    DEFAULT_MODEL_2("Wagen"),
+    DEFAULT_MODEL_3("Porsche"),
+    DEFAULT_MODEL_4("Lada"),
     NO_CARS_FOUND("* В базе не существует такой машины. "),
     FOUND_CAR("* Машина была найдена: "),
     ZERO_TO_EXIT("* Для возврата в предыдущее меню введите цифру 0. ")
@@ -32,7 +50,7 @@ public enum Lines {
         this.line = line;
     }
 
-    String getLine(){
+    public String getLine(){
         return line;
     }
 

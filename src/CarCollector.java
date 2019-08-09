@@ -1,94 +1,68 @@
+import Constants.Lines;
+
 import java.util.*;
 
 public class CarCollector {
 
-    private ArrayList<Car> carsList = new ArrayList<>();
+    private Map<String, Car> carsList = new HashMap<>();
 
     public void addCar(){
-        carsList.add(Car.CREATE_CAR());
-        Set<Car> set = new HashSet<>(carsList);
-        carsList.clear();
-        carsList.addAll(set);
+        Car car = Car.CREATE_CAR();
+        carsList.put(car.getVinCode(), car);
     }
 
-    private int searchByVIN(String searchVIN){
-        for (int i = 0; i < carsList.size(); i++){
-            String thisVIN = carsList.get(i).getVinCode();
-            if(Objects.isNull(thisVIN)) break;
-            if(thisVIN.equals(searchVIN) && Objects.nonNull(carsList.get(i).toString())){
-                return i;
-            }
+    private Car searchByVIN(String vin){
+        if(carsList.containsKey(vin)){
+            return carsList.get(vin);
         }
-        return -1;
+        return null;
     }
 
-    private int searchByREG(String searchREG){
-        for (int i = 0; i < carsList.size(); i++){
-            String thisREG = carsList.get(i).getRegNumber();
-            if(Objects.isNull(thisREG)) break;
-            if(thisREG.equals(searchREG) && Objects.nonNull(carsList.get(i).toString())){
-                return i;
-            }
+    private Car searchByREG(String reg){
+        for(Iterator iterator = carsList.values().iterator(); iterator.hasNext();){
+            Car car = (Car)iterator.next();
+            if(reg.equals(car.getRegNumber())) return car;
         }
-        return -1;
+        return null;
     }
 
     public void findByVIN(String vin){
-        sayIfExists(searchByVIN(vin));
+        Cars.isExist(searchByVIN(vin));
     }
 
     public void findByREG(String reg){
-        sayIfExists(searchByREG(reg));
-    }
-
-    private void sayIfExists(int index){
-        if(index == -1){
-            System.out.println(Lines.NO_CARS_FOUND);
-        }
-        else {
-            System.out.println(Lines.FOUND_CAR);
-            System.out.println(carsList.get(index));
-        }
+        Cars.isExist(searchByREG(reg));
     }
 
     public void deleteByVIN(String vin){
-        carsList.remove(searchByVIN(vin));
+        carsList.remove(vin);
     }
 
-    public void changeParametersByVIN(String vin){
-        carsList.get(searchByVIN(vin)).changeParameters();
+    public void changeByVIN(String vin){
+        carsList.get(vin).change();
     }
 
     public CarCollector() {
         //Манины по умолчанию, для наглядности
-        Car car1 = new Car(Lines.DEFAULT_VIN_1.getLine(), Lines.DEFAULT_REG_NUM_1.getLine());
-        Car car2 = new Car(Lines.DEFAULT_VIN_2.getLine(), Lines.DEFAULT_REG_NUM_2.getLine());
-        Car car3 = new Car(Lines.DEFAULT_VIN_3.getLine(), Lines.DEFAULT_REG_NUM_3.getLine());
-        Car car4 = new Car(Lines.DEFAULT_VIN_4.getLine(), Lines.DEFAULT_REG_NUM_4.getLine());
-        this.carsList.add(car1);
-        this.carsList.add(car2);
-        this.carsList.add(car3);
-        this.carsList.add(car4);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CarCollector that = (CarCollector) o;
-        return Objects.equals(carsList, that.carsList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(carsList);
+        Car car1 = new Car(Lines.DEFAULT_VIN_1.getLine(), Lines.DEFAULT_REG_NUM_1.getLine(), Lines.DEFAULT_MODEL_1.getLine(),
+                500, 2000, 1000);
+        Car car2 = new Car(Lines.DEFAULT_VIN_2.getLine(), Lines.DEFAULT_REG_NUM_2.getLine(), Lines.DEFAULT_MODEL_2.getLine(),
+                600, 2006, 1300);
+        Car car3 = new Car(Lines.DEFAULT_VIN_3.getLine(), Lines.DEFAULT_REG_NUM_3.getLine(), Lines.DEFAULT_MODEL_3.getLine(),
+                1500, 1995, 500);
+        Car car4 = new Car(Lines.DEFAULT_VIN_4.getLine(), Lines.DEFAULT_REG_NUM_4.getLine(), Lines.DEFAULT_MODEL_4.getLine(),
+                0, 2019, 3000);
+        this.carsList.put(car1.getVinCode(), car1);
+        this.carsList.put(car2.getVinCode(), car2);
+        this.carsList.put(car3.getVinCode(), car3);
+        this.carsList.put(car4.getVinCode(), car4);
     }
 
     @Override
     public String toString() {
         StringBuilder line = new StringBuilder("Все машины:\n");
-        for (int i = 0; i < carsList.size(); i++){
-            line.append((i + 1) + ":\n " + carsList.get(i) + "\n");
+        for (Iterator iterator = carsList.values().iterator(); iterator.hasNext();){
+            line.append("* \n" + iterator.next() + "\n");
         }
         return line.toString();
     }

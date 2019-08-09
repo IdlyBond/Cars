@@ -1,6 +1,12 @@
+import Constants.Lines;
+
 public class Menu {
 
-    private CarCollector carCollector = new CarCollector();
+    private CarCollector carCollector;
+
+    public Menu() {
+        this.carCollector = new CarCollector();
+    }
 
     public void mainMenu(){
         while(true){
@@ -63,7 +69,7 @@ public class Menu {
         while(true){
             String line = enterVIN();
             if(Utils.isZero(line)) return;
-            if(Car.checkVinCode(line)){
+            if(Cars.checkVinCode(line)){
                 carCollector.findByVIN(line);
             }
         }
@@ -73,7 +79,7 @@ public class Menu {
         while(true){
             String line = enterREG();
             if(Utils.isZero(line)) return;
-            if(Car.checkRegNumber(line)){
+            if(Cars.checkRegNumber(line)){
                 carCollector.findByREG(line);
             }
         }
@@ -91,8 +97,8 @@ public class Menu {
         while(true){
             String line = enterREG();
             if(Utils.isZero(line)) return;
-            if(Car.checkVinCode(line)){
-                carCollector.changeParametersByVIN(line);
+            if(Cars.checkVinCode(line)){
+                carCollector.changeByVIN(line);
             }
         }
     }
@@ -101,7 +107,7 @@ public class Menu {
         while(true){
             String line = enterVIN();
             if(Utils.isZero(line)) return;
-            if(Car.checkVinCode(line)){
+            if(Cars.checkVinCode(line)){
                 carCollector.deleteByVIN(line);
             }
         }

@@ -4,7 +4,6 @@ import java.util.Scanner;
 public abstract class Utils {
 
     public static int printNumberFromTo(int from, int to){
-        System.out.println("* Введите число: ");
         while(true) {
             Scanner scr = new Scanner(System.in);
             Integer number = null;
@@ -15,7 +14,6 @@ public abstract class Utils {
     }
 
     public static int printNumberFromTo(int from){
-        System.out.println("* Введите число: ");
         while(true) {
             Scanner scr = new Scanner(System.in);
             Integer number = null;
@@ -25,8 +23,16 @@ public abstract class Utils {
         }
     }
 
+    public static int printNumber(){
+        while(true) {
+            Scanner scr = new Scanner(System.in);
+            if (scr.hasNextInt()) return scr.nextInt();
+            System.out.println("* Попробуйте еще раз.");
+
+        }
+    }
+
     public static int printNumberFromTo(int from, int to, int and){
-        System.out.println("* Введите число: ");
         while(true) {
             Scanner scr = new Scanner(System.in);
             Integer number = null;
@@ -46,8 +52,14 @@ public abstract class Utils {
             if (scr.nextLine().trim().matches(regex)) return scr.nextLine();
         }
     }
+
     public static boolean isZero(String line){
         if(Objects.isNull(line)) return false;
         return line.trim().length() == 1 && line.trim().equals("0");
     }
+
+    public static boolean moreThanNull(int number){
+        return number >= 0;
+    }
+
 }
