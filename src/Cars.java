@@ -1,6 +1,8 @@
 import constants.Lines;
 import utils.Utils;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 public class Cars {
@@ -10,7 +12,7 @@ public class Cars {
     }
 
     public static boolean checkYear(int year){
-        return year >= 1900 && year <= 2020;
+        return (year >= 1900 && year <= 2020) || year == 0;
     }
 
     public static boolean checkRegNumber(String line){
@@ -31,13 +33,23 @@ public class Cars {
         return Utils.moreThanNull(num);
     }
 
-    public static void isExist(Object car){
+    public static void isExist(Car car){
         if(Objects.isNull(car)){
             System.out.println(Lines.NO_CARS_FOUND);
         }
         else {
             System.out.println(Lines.FOUND_CAR);
             System.out.println(car);
+        }
+    }
+
+    public static void isExist(Map cars){
+        if(cars.isEmpty()){
+            System.out.println(Lines.NO_CARS_FOUND);
+        }
+        else {
+            System.out.println(Lines.FOUND_CAR);
+            System.out.println(cars.values());
         }
     }
 }

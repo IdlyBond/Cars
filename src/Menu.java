@@ -1,13 +1,10 @@
+import constants.Fields;
 import constants.Lines;
 import utils.Utils;
 
 public class Menu {
 
-    private CarCollector carCollector;
-
-    public Menu() {
-        this.carCollector = new CarCollector();
-    }
+    private CarCollector carCollector = new CarCollector();
 
     public void mainMenu(){
         while(true){
@@ -18,13 +15,13 @@ public class Menu {
                     searchMenu();
                     break;
                 case 2:
-                    addCar();
+                    add();
                     break;
                 case 3:
-                    changeParameterByVIN();
+                    change();
                     break;
                 case 4:
-                    deleteByVIN();
+                    delete();
                     break;
                 case 0:
                     break;
@@ -38,15 +35,27 @@ public class Menu {
         while(true) {
             System.out.println(Lines.CHOOSE_LINE);
             System.out.println(Lines.SEARCH_OPTIONS_LINE);
-            switch (Utils.printNumberFromTo(0, 2, 7)) {
+            switch (Utils.printNumberFromTo(0, 7)) {
                 case 1:
-                    findByVIN();
+                    find(Fields.VIN_CODE);
                     break;
                 case 2:
-                    findByREG();
+                    find(Fields.REG_NUM);
+                    break;
+                case 3:
+                    find(Fields.MODEL);
+                    break;
+                case 4:
+                    find(Fields.PATH);
+                    break;
+                case 5:
+                    find(Fields.YEAR);
+                    break;
+                case 6:
+                    find(Fields.PRICE);
                     break;
                 case 7:
-                    showAllCars();
+                    printCars();
                     break;
                 case 0:
                     return;
@@ -54,63 +63,52 @@ public class Menu {
         }
     }
 
-    private String enterVIN(){
-        System.out.println(Lines.ENTER_VIN_CODE);
-        System.out.println(Lines.ZERO_TO_EXIT);
-        return Utils.printLine();
-    }
-
-    private String enterREG(){
-        System.out.println(Lines.ENTER_REG_NUMBER);
-        System.out.println(Lines.ZERO_TO_EXIT);
-        return Utils.printLine();
-    }
-
-    private void findByVIN(){
-        while(true){
-            String line = enterVIN();
-            if(Utils.isZero(line)) return;
-            if(Cars.checkVinCode(line)){
-                carCollector.findByVIN(line);
-            }
-        }
-    }
-
-    private void findByREG(){
-        while(true){
-            String line = enterREG();
-            if(Utils.isZero(line)) return;
-            if(Cars.checkRegNumber(line)){
-                carCollector.findByREG(line);
-            }
-        }
-    }
-
-    private void showAllCars(){
+    private void printCars(){
         System.out.println(carCollector);
     }
 
-    private void addCar(){
-        carCollector.addCar();
+    private void add(){
+        carCollector.add();
     }
 
-    private void changeParameterByVIN(){
+    private void change(){
         while(true){
-            String line = enterREG();
+            System.out.println(Lines.ZERO_TO_EXIT);
+            String line = (String)EnterFields.enter(Fields.VIN_CODE);
             if(Utils.isZero(line)) return;
-            if(Cars.checkVinCode(line)){
-                carCollector.changeByVIN(line);
+            carCollector.change(line);
+        }
+    }
+
+    private void delete(){
+        while(true){
+            System.out.println(Lines.ZERO_TO_EXIT);
+            String line = (String)EnterFields.enter(Fields.VIN_CODE);
+            if(Utils.isZero(line)) return;
+            carCollector.remove(line);
+        }
+    }
+
+    private void find(Fields type){
+        while(true) {
+            System.out.println(Lines.ZERO_TO_EXIT);
+            if(type == Fields.VIN_CODE || type == Fields.REG_NUM || type == Fields.MODEL){
+                String var = (String)EnterFields.enter(type);
+                if (Utils.isZero(var)) return;
+                Cars.isExist(carCollector.search(var, type));
+            }
+            else{
+                int from = Integer.parseInt(EnterFields.enter(type).toString());
+                if (from == 0) return;
+                int to = Integer.parseInt(EnterFields.enter(type).toString());
+                System.out.println(">=" + from + "&" + "<=" + to);
+                Cars.isExist(carCollector.search(from, to, type));
             }
         }
     }
 
-    private void deleteByVIN(){
-        while(true){
-            String line = enterVIN();
-            if(Utils.isZero(line)) return;
-            if(Cars.checkVinCode(line)){
-                carCollector.deleteByVIN(line);
-            }
-        }
+    @Override
+    public String toString() {
+        return carCollector.toString();
     }
 }
